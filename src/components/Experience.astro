@@ -1,0 +1,139 @@
+---
+import Section from "./Section.astro";
+import Icon from "./Icon.astro";
+import * as experienceData from "../data/experience.md";
+import esTranslations from "../i18n/es.json";
+import enTranslations from "../i18n/en.json";
+
+interface Props {
+  lang?: string;
+}
+
+const { lang = "es" } = Astro.props as Props;
+const t = (lang === "en" ? enTranslations : esTranslations) as typeof esTranslations;
+
+const { items } = experienceData.frontmatter as {
+  items: Array<{
+    id: string;
+    company: string;
+    icon: string;
+    period: string;
+    role: string;
+    metrics: Array<{ value: string; labelKey: string }>;
+  }>;
+};
+---
+
+<Section class="py-24 max-w-7xl mx-auto px-8" id="experience">
+  <div class="reveal mb-16 text-center">
+    <h2 class="font-headline text-3xl md:text-4xl font-extrabold text-on-surface mb-4">{t.experience.title}</h2>
+    <p class="text-on-surface-variant max-w-2xl mx-auto">{t.experience.description}</p>
+  </div>
+
+  <div class="relative space-y-12 before:absolute before:inset-0 before:ml-5 before:-translate-x-px md:before:mx-auto md:before:translate-x-0 before:h-full before:w-0.5 before:bg-linear-to-b before:from-transparent before:via-outline-variant/30 before:to-transparent">
+    {items.map((item, index) => (
+      <div 
+        class={`experience-item reveal relative flex items-center justify-between md:justify-normal md:odd:flex-row-reverse group ${index >= 3 ? 'hidden' : ''}`}
+      >
+        <div class="flex items-center justify-center w-10 h-10 rounded-full border border-outline-variant/30 bg-surface-container-high text-primary group-hover:scale-125 transition-transform shrink-0 md:order-1 md:group-odd:-translate-x-1/2 md:group-even:translate-x-1/2">
+          <Icon name={item.icon} class="w-5 h-5" />
+        </div>
+        
+        <div class="w-[calc(100%-4rem)] md:w-[45%] p-6 rounded-2xl bg-surface-container-low border border-outline-variant/15 shadow-xl shadow-black/20 hover:border-primary/30 transition-all duration-300">
+          <div class="flex items-center justify-between mb-4">
+            <time class="font-headline font-bold text-primary">{item.period}</time>
+            <span class="text-xs font-bold text-on-surface-variant bg-surface-container px-3 py-1 rounded-full">{item.role}</span>
+          </div>
+          
+          <div class="text-xl font-bold text-on-surface mb-1">{item.company}</div>
+          <p class="text-on-surface-variant text-sm mb-6 leading-relaxed">
+            {t.experience.items[item.id as keyof typeof t.experience.items]?.description}
+          </p>
+          
+          <div class="grid grid-cols-2 gap-4">
+            {item.metrics.map((metric) => (
+              <div class="p-3 bg-surface-container rounded-xl border border-outline-variant/10">
+                <div class="text-tertiary font-bold text-lg">{metric.value}</div>
+                <div class="text-[10px] uppercase tracking-tighter text-on-surface-variant font-bold">
+                  {t.experience.metrics[metric.labelKey as keyof typeof t.experience.metrics]}
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </div>
+    ))}
+  </div>
+
+  <div class="flex justify-center items-center gap-6 mt-20">
+    <button 
+      id="show-less-exp" 
+      class=" group flex items-center gap-2 px-8 py-3 bg-surface-container-high border border-outline-variant/30 text-on-surface rounded-full font-bold hover:scale-105 transition-all active:scale-95"
+    >
+      <span class="material-symbols-outlined text-lg group-hover:-translate-y-1 transition-transform">expand_less</span>
+      <span>{t.experience.buttons.showLess}</span>
+    </button>
+    
+    <button 
+      id="show-more-exp" 
+      class="group flex items-center gap-3 px-10 py-4 bg-primary text-white rounded-full font-bold hover:scale-105 transition-all active:scale-95 shadow-lg shadow-primary/25"
+    >
+      <span>{t.experience.buttons.showMore}</span>
+      <span class="material-symbols-outlined text-xl group-hover:translate-y-1 transition-transform">expand_more</span>
+    </button>
+  </div>
+</Section>
+
+<script>
+  function initExperience() {
+    const items = document.querySelectorAll('.experience-item');
+    const showMoreBtn = document.getElementById('show-more-exp') as HTMLButtonElement;
+    const showLessBtn = document.getElementById('show-less-exp') as HTMLButtonElement;
+    
+    if (!items.length || !showMoreBtn || !showLessBtn) return;
+
+    let visibleCount = 3;
+
+    function updateVisibility() {
+      items.forEach((item, index) => {
+        if (index < visibleCount) {
+          item.classList.remove('hidden');
+          setTimeout(() => item.classList.add('active'), 50);
+        } else {
+          item.classList.add('hidden');
+        }
+      });
+
+      if (visibleCount >= items.length) {
+        showMoreBtn.classList.add('hidden');
+      } else {
+        showMoreBtn.classList.remove('hidden');
+      }
+
+      if (visibleCount > 3) {
+        showLessBtn.classList.remove('hidden');
+      } else {
+        showLessBtn.classList.add('hidden');
+      }
+    }
+
+    showMoreBtn.addEventListener('click', () => {
+      visibleCount += 2;
+      updateVisibility();
+    });
+
+    showLessBtn.addEventListener('click', () => {
+      visibleCount = 3;
+      updateVisibility();
+      window.scrollTo({ 
+        top: document.getElementById('experience')?.offsetTop! - 100, 
+        behavior: 'smooth' 
+      });
+    });
+
+    updateVisibility();
+  }
+
+  document.addEventListener('DOMContentLoaded', initExperience);
+  document.addEventListener('astro:page-load', initExperience);
+</script>

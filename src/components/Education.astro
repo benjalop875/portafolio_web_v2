@@ -1,0 +1,135 @@
+---
+import Section from "./Section.astro";
+import Icon from "./Icon.astro";
+import * as educationData from "../data/education.md";
+import esTranslations from "../i18n/es.json";
+import enTranslations from "../i18n/en.json";
+
+interface Props {
+  lang?: string;
+}
+
+const { lang = "es" } = Astro.props as Props;
+const t = (lang === "en" ? enTranslations : esTranslations) as typeof esTranslations;
+
+const { items } = educationData.frontmatter as {
+  items: Array<{
+    id: string;
+    institution: string;
+    icon: string;
+    year: string;
+    statusKey: "completed" | "certified" | "process";
+  }>;
+};
+---
+
+<Section class="py-24 px-8 bg-surface-container-lowest" id="education">
+  <div class="max-w-7xl mx-auto">
+    <div class="reveal mb-16 text-center">
+      <h2 class="font-headline text-3xl md:text-4xl font-extrabold text-on-surface mb-4">{t.education.title}</h2>
+      <p class="text-on-surface-variant max-w-2xl mx-auto">{t.education.description}</p>
+    </div>
+
+    <div id="education-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mb-12">
+      {items.map((item, index) => (
+        <div 
+          class={`education-item reveal bg-surface-container p-8 rounded-3xl border border-outline-variant/15 hover:border-primary/40 transition-all duration-300 ${index >= 3 ? 'hidden' : ''}`}
+          style={`transition-delay: ${(index % 3) * 100}ms;`}
+        >
+          <div class="w-12 h-12 rounded-2xl bg-primary/10 flex items-center justify-center text-primary mb-6">
+            <Icon name={item.icon} class="w-6 h-6" />
+          </div>
+          <h3 class="text-xl font-bold text-on-surface mb-1">
+            {t.education.items[item.id as keyof typeof t.education.items]}
+          </h3>
+          <p class="text-primary font-medium text-sm mb-4">{item.institution}</p>
+          <div class="flex items-center justify-between mt-auto">
+            <span class="text-xs text-on-surface-variant">{item.year}</span>
+            <span class={`px-3 py-1 text-[10px] font-bold uppercase tracking-wider rounded-full border ${
+              item.statusKey === 'completed' 
+              ? 'bg-emerald-500/10 text-emerald-500 border-emerald-500/20' 
+              : 'bg-primary/10 text-primary border-primary/20'
+            }`}>
+              {t.education.status[item.statusKey]}
+            </span>
+          </div>
+        </div>
+      ))}
+    </div>
+
+    <div class="flex flex-col sm:flex-row justify-center items-center gap-4">
+      <button 
+        id="show-more-edu" 
+        class="group flex items-center gap-2 px-8 py-3 bg-on-surface text-surface rounded-full font-bold hover:scale-105 transition-all active:scale-95"
+      >
+        <span>{t.education.buttons.showMore}</span>
+        <span class="material-symbols-outlined text-lg group-hover:translate-y-1 transition-transform">expand_more</span>
+      </button>
+      
+      <button 
+        id="show-less-edu" 
+        class=" group flex items-center gap-2 px-8 py-3 bg-surface-container-high border border-outline-variant/30 text-on-surface rounded-full font-bold hover:scale-105 transition-all active:scale-95"
+      >
+        <span>{t.education.buttons.showLess}</span>
+        <span class="material-symbols-outlined text-lg group-hover:-translate-y-1 transition-transform">expand_less</span>
+      </button>
+    </div>
+  </div>
+</Section>
+
+<script>
+  function initEducation() {
+    const grid = document.getElementById('education-grid');
+    const items = document.querySelectorAll('.education-item');
+    const showMoreBtn = document.getElementById('show-more-edu');
+    const showLessBtn = document.getElementById('show-less-edu');
+    
+    if (!grid || !items.length || !showMoreBtn || !showLessBtn) return;
+
+    let visibleCount = 3;
+
+    function updateVisibility() {
+      items.forEach((item, index) => {
+        if (index < visibleCount) {
+          item.classList.remove('hidden');
+          // Trigger reveal animation if needed
+          item.classList.add('active'); 
+        } else {
+          item.classList.add('hidden');
+        }
+      });
+
+      // Toggle buttons
+      if (visibleCount >= items.length) {
+        showMoreBtn?.classList.add('hidden');
+      } else {
+        showMoreBtn?.classList.remove('hidden');
+      }
+
+      if (visibleCount > 3) {
+        showLessBtn?.classList.remove('hidden');
+      } else {
+        showLessBtn?.classList.add('hidden');
+      }
+    }
+
+    showMoreBtn.addEventListener('click', () => {
+      visibleCount += 3;
+      updateVisibility();
+    });
+
+    showLessBtn.addEventListener('click', () => {
+      visibleCount = 3;
+      updateVisibility();
+      // Scroll back up to education top for better UX
+      const scrollPos = grid.getBoundingClientRect().top + window.scrollY - 100;
+      window.scrollTo({ top: scrollPos, behavior: 'smooth' });
+    });
+    
+    // Initial check
+    updateVisibility();
+  }
+
+  document.addEventListener('DOMContentLoaded', initEducation);
+  document.addEventListener('astro:page-load', initEducation);
+</script>

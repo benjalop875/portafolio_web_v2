@@ -1,0 +1,71 @@
+---
+import Angular from './Icons/Angular.astro';
+import AstroIcon from './Icons/Astro.astro';
+import BriefCase from './Icons/BriefCase.astro';
+import Code from './Icons/Code.astro';
+import Css from './Icons/Css.astro';
+import Download from './Icons/Dowload.astro';
+import GitHub from './Icons/GitHub.astro';
+import Html from './Icons/Html.astro';
+import Javascript from './Icons/Javascript.astro';
+import Link from './Icons/Link.astro';
+import LinkedIn from './Icons/LinkedIn.astro';
+import Mail from './Icons/Mail.astro';
+import MoonFill from './Icons/MoonFill.astro';
+import NextJS from './Icons/NextJS.astro';
+import Sql from './Icons/Sql.astro';
+import SunFill from './Icons/SunFill.astro';
+import System from './Icons/System.astro';
+import Tailwind from './Icons/Tailwind.astro';
+import Typescript from './Icons/Typescript.astro';
+import User from './Icons/User.astro';
+import Ability from './Icons/ability.astro';
+import Certified from './Icons/certified.astro';
+import Csharp from './Icons/csharp.astro';
+import Net from './Icons/net.astro';
+
+interface Props {
+  name: string;
+  class?: string;
+}
+
+const { name, class: className } = Astro.props;
+
+const ICON_MAP: Record<string, any> = {
+  'angular': Angular,
+  'astro': AstroIcon,
+  'briefcase': BriefCase,
+  'code': Code,
+  'css': Css,
+  'download': Download,
+  'github': GitHub,
+  'html': Html,
+  'javascript': Javascript,
+  'link': Link,
+  'linkedin': LinkedIn,
+  'mail': Mail,
+  'moon': MoonFill,
+  'nextjs': NextJS,
+  'sql': Sql,
+  'sun': SunFill,
+  'system': System,
+  'tailwind': Tailwind,
+  'typescript': Typescript,
+  'user': User,
+  'ability': Ability,
+  'certified': Certified,
+  'csharp': Csharp,
+  'net': Net,
+  // Aliases for experience/education
+  'database': Sql,
+  'school': Certified,
+  'settings': System,
+  'rocket_launch': Ability,
+  'expand_more': SunFill, // Fallback for pagination icons if needed, or just keep material symbols for those?
+  'expand_less': MoonFill, // User wants ALL icons replaced. But I don't see chevron icons in the list.
+};
+
+const IconComponent = ICON_MAP[name.toLowerCase()] || Code;
+---
+
+<IconComponent class={className} />

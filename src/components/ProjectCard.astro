@@ -1,0 +1,122 @@
+---
+import Icon from './Icon.astro';
+
+interface Props {
+  project: {
+    id: string;
+    image: string;
+    tags: string[];
+    demoUrl?: string;
+    repoUrl?: string;
+  };
+  t: any;
+  layoutType: 'featured' | 'card' | 'horizontal';
+}
+
+const { project, t, layoutType } = Astro.props;
+const itemT = t.projects.items[project.id as keyof typeof t.projects.items];
+---
+
+{layoutType === 'featured' && (
+  <div 
+    class="project-card md:col-span-8 group bg-surface-container rounded-3xl overflow-hidden border border-outline-variant/10 hover:border-primary/30 transition-all duration-500 reveal"
+    data-name={itemT.title.toLowerCase()}
+    data-tags={project.tags.join(',').toLowerCase()}
+  >
+    <div class="relative h-80 overflow-hidden">
+      <img alt={itemT.title} class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" src={project.image}/>
+      <div class="absolute inset-0 bg-linear-to-t from-surface-container via-transparent opacity-60"></div>
+    </div>
+    <div class="p-8">
+      <div class="flex flex-col md:flex-row justify-between items-start gap-4 mb-4">
+        <h3 class="text-2xl font-bold font-headline text-on-surface">{itemT.title}</h3>
+        <div class="flex gap-3">
+          {project.demoUrl && (
+            <a class="flex items-center gap-2 bg-primary text-white px-4 py-2 rounded-xl text-xs font-bold hover:scale-95 transition-all shadow-lg shadow-primary/20" href={project.demoUrl}>
+              <Icon name="link" class="w-4 h-4" /> {t.projects.buttons.demo}
+            </a>
+          )}
+          {project.repoUrl && (
+            <a class="flex items-center gap-2 bg-surface-container-high border border-outline-variant/30 text-on-surface px-4 py-2 rounded-xl text-xs font-bold hover:bg-surface-bright transition-all" href={project.repoUrl}>
+              <Icon name="github" class="w-4 h-4" /> {t.projects.buttons.repo}
+            </a>
+          )}
+        </div>
+      </div>
+      <p class="text-on-surface-variant mb-6">{itemT.description}</p>
+      <div class="flex flex-wrap gap-2">
+        {project.tags.map((tag) => (
+          <span class="px-3 py-1 bg-secondary-container text-on-secondary-container rounded-full text-[10px] uppercase font-bold tracking-wider">{tag}</span>
+        ))}
+      </div>
+    </div>
+  </div>
+)}
+
+{layoutType === 'card' && (
+  <div 
+    class="project-card md:col-span-4 group bg-surface-container rounded-3xl overflow-hidden border border-outline-variant/10 hover:border-primary/30 transition-all duration-500 flex flex-col reveal"
+    data-name={itemT.title.toLowerCase()}
+    data-tags={project.tags.join(',').toLowerCase()}
+  >
+    <div class="relative h-64 overflow-hidden">
+      <img alt={itemT.title} class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" src={project.image}/>
+      <div class="absolute inset-0 bg-linear-to-t from-surface-container via-transparent opacity-60"></div>
+    </div>
+    <div class="p-6 grow flex flex-col">
+      <h3 class="text-xl font-bold font-headline text-on-surface mb-3">{itemT.title}</h3>
+      <p class="text-sm text-on-surface-variant mb-6 line-clamp-2">{itemT.description}</p>
+      <div class="flex flex-wrap gap-2 mb-6">
+        {project.tags.map((tag) => (
+          <span class="px-3 py-1 bg-secondary-container text-on-secondary-container rounded-full text-[10px] uppercase font-bold tracking-wider">{tag}</span>
+        ))}
+      </div>
+      <div class="flex gap-2 mt-auto">
+        {project.demoUrl && (
+          <a class="flex-1 flex items-center justify-center gap-1.5 bg-primary text-white py-2.5 rounded-xl text-xs font-bold hover:scale-[0.98] transition-all" href={project.demoUrl}>
+            <Icon name="link" class="w-4 h-4" /> {t.projects.buttons.demo}
+          </a>
+        )}
+        {project.repoUrl && (
+          <a class="flex-1 flex items-center justify-center gap-1.5 bg-surface-container-high border border-outline-variant/30 text-on-surface py-2.5 rounded-xl text-xs font-bold hover:bg-surface-bright transition-all" href={project.repoUrl}>
+            <Icon name="github" class="w-4 h-4" /> {t.projects.buttons.repo}
+          </a>
+        )}
+      </div>
+    </div>
+  </div>
+)}
+
+{layoutType === 'horizontal' && (
+  <div 
+    class="project-card md:col-span-8 group bg-surface-container rounded-3xl overflow-hidden border border-outline-variant/10 hover:border-primary/30 transition-all duration-500 flex flex-col md:flex-row reveal"
+    data-name={itemT.title.toLowerCase()}
+    data-tags={project.tags.join(',').toLowerCase()}
+  >
+    <div class="relative w-full md:w-1/2 h-64 md:h-auto overflow-hidden">
+      <img alt={itemT.title} class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" src={project.image}/>
+    </div>
+    <div class="p-8 w-full md:w-1/2 flex flex-col justify-center">
+      <h3 class="text-2xl font-bold font-headline text-on-surface mb-4">{itemT.title}</h3>
+      <p class="text-on-surface-variant mb-6">{itemT.description}</p>
+      <div class="flex flex-wrap gap-2 mb-8">
+        {project.tags.map((tag) => (
+          <span class="px-3 py-1 bg-secondary-container text-on-secondary-container rounded-full text-[10px] uppercase font-bold tracking-wider">{tag}</span>
+        ))}
+      </div>
+      <div class="flex gap-4">
+        {project.demoUrl && (
+          <a class="px-6 py-3 bg-primary text-white rounded-xl text-xs font-bold hover:scale-95 transition-all flex items-center gap-2 shadow-lg shadow-primary/20" href={project.demoUrl}>
+            <Icon name="link" class="w-4 h-4" /> {t.projects.buttons.demo}
+          </a>
+        )}
+        {project.repoUrl && (
+          <a class="px-6 py-3 bg-surface-container-high border border-outline-variant/30 text-on-surface rounded-xl text-xs font-bold hover:bg-surface-bright transition-all flex items-center gap-2" href={project.repoUrl}>
+            <Icon name="github" class="w-4 h-4" /> {t.projects.buttons.repo}
+          </a>
+        )}
+        </a>
+      </div>
+    </div>
+  </div>
+)}

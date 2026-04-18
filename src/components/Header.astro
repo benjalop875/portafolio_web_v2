@@ -1,0 +1,162 @@
+---
+import * as headerData from '../data/header.md';
+import esTranslations from '../i18n/es.json';
+import enTranslations from '../i18n/en.json';
+
+const { brand, links } = headerData.frontmatter as {
+    brand: string;
+    links: { id: string; url: string }[];
+};
+
+const { lang = 'es' } = Astro.props;
+const t = lang === 'en' ? enTranslations : esTranslations;
+---
+<nav class="fixed top-0 w-full z-50 glass-nav border-b border-black/5 dark:border-white/5 transition-all duration-300">
+<div class="flex justify-between items-center px-6 md:px-12 py-4 max-w-7xl mx-auto">
+<div class="text-xl font-bold tracking-tighter text-on-surface font-manrope">
+    {brand}
+</div>
+<div class="hidden md:flex items-center gap-8 font-manrope tracking-tight text-sm">
+{links.map((link) => (
+<a 
+  class="nav-link font-semibold pb-1 transition-all duration-300 text-on-surface-variant hover:text-primary border-b-2 border-transparent" 
+  href={`/${lang}${link.url}`} 
+  data-section={link.id}
+>
+  {t.header.links[link.id as keyof typeof t.header.links]}
+</a>
+))}
+</div>
+<div class="flex items-center gap-4">
+
+<!-- Theme Toggle -->
+<div class="relative group" id="theme-dropdown-wrapper">
+<button class="w-10 h-10 flex items-center justify-center rounded-xl bg-on-surface/5 border border-on-surface/10 hover:bg-on-surface/10 transition-all text-on-surface-variant hover:text-primary" id="theme-toggle" title="Theme">
+<span class="material-symbols-outlined text-[20px]" id="theme-icon">computer</span>
+</button>
+<div id="theme-menu" class="absolute right-0 mt-2 w-36 bg-surface-container border border-on-surface/10 rounded-xl overflow-hidden opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 shadow-2xl z-50">
+<button data-theme="light" class="theme-option w-full flex items-center gap-2.5 px-4 py-2 text-xs font-bold text-on-surface hover:bg-on-surface/5 transition-colors">
+  <span class="material-symbols-outlined text-[16px]">light_mode</span> {t.header.theme.light}
+</button>
+<button data-theme="dark" class="theme-option w-full flex items-center gap-2.5 px-4 py-2 text-xs font-bold text-on-surface hover:bg-on-surface/5 transition-colors">
+  <span class="material-symbols-outlined text-[16px]">dark_mode</span> {t.header.theme.dark}
+</button>
+<button data-theme="system" class="theme-option w-full flex items-center gap-2.5 px-4 py-2 text-xs font-bold text-on-surface hover:bg-on-surface/5 transition-colors">
+  <span class="material-symbols-outlined text-[16px]">computer</span> {t.header.theme.system}
+</button>
+</div>
+</div>
+
+<!-- Language Selector -->
+<div class="relative group">
+<button class="flex items-center gap-1.5 px-3 py-2 rounded-xl bg-on-surface/5 border border-on-surface/10 hover:bg-on-surface/10 transition-all text-xs font-bold text-on-surface-variant uppercase tracking-widest">
+<span>{lang.toUpperCase()}</span>
+<span class="material-symbols-outlined text-[16px]">expand_more</span>
+</button>
+<div class="absolute right-0 mt-2 w-24 bg-surface-container border border-on-surface/10 rounded-xl overflow-hidden opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 shadow-2xl z-50">
+<a class={`block px-4 py-2 text-xs font-bold hover:bg-on-surface/5 transition-colors ${lang === 'es' ? 'text-primary' : 'text-on-surface'}`} href="/es/">ES</a>
+<a class={`block px-4 py-2 text-xs font-bold hover:bg-on-surface/5 transition-colors ${lang === 'en' ? 'text-primary' : 'text-on-surface'}`} href="/en/">EN</a>
+</div>
+</div>
+<button class="bg-linear-to-br from-primary to-primary-container text-white px-6 py-2 rounded-xl font-bold hover:scale-95 active:scale-90 transition-all duration-300 shadow-lg shadow-primary/20">
+    {t.header.resumeText}
+</button>
+</div>
+</div>
+</nav>
+
+<script>
+    const ICONS: Record<string, string> = { light: 'light_mode', dark: 'dark_mode', system: 'computer' };
+
+    const applyTheme = (t: string) => {
+        if (t === 'dark') {
+            document.documentElement.classList.add('dark');
+        } else if (t === 'light') {
+            document.documentElement.classList.remove('dark');
+        } else {
+            if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+                document.documentElement.classList.add('dark');
+            } else {
+                document.documentElement.classList.remove('dark');
+            }
+        }
+    };
+
+    const themeSetup = () => {
+        const icon = document.getElementById('theme-icon');
+        const options = document.querySelectorAll<HTMLButtonElement>('.theme-option');
+
+        const syncUI = () => {
+            const t = localStorage.getItem('theme') || 'system';
+            if (icon) icon.textContent = ICONS[t] || 'computer';
+            options.forEach(opt => {
+                const active = opt.dataset.theme === t;
+                if (active) {
+                    opt.classList.replace('text-on-surface', 'text-primary');
+                    opt.classList.add('bg-on-surface/5');
+                } else {
+                    opt.classList.replace('text-primary', 'text-on-surface');
+                    opt.classList.remove('bg-on-surface/5');
+                }
+            });
+        };
+
+        syncUI();
+
+        options.forEach(opt => {
+            opt.addEventListener('click', (e) => {
+                e.preventDefault();
+                const t = opt.dataset.theme || 'system';
+                if (t === 'system') {
+                    localStorage.removeItem('theme');
+                } else {
+                    localStorage.setItem('theme', t);
+                }
+                applyTheme(t);
+                syncUI();
+            });
+        });
+    };
+
+    const scrollSpy = () => {
+        const sections = ['projects', 'education', 'experience', 'contact'];
+        const navLinks = document.querySelectorAll('.nav-link');
+        
+        const observerOptions = {
+            threshold: 0,
+            rootMargin: "-15% 0px -80% 0px" // Detectamos el cambio cerca del 15% superior de la pantalla
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    const id = entry.target.id;
+                    navLinks.forEach(link => {
+                        const isTarget = (link as HTMLElement).dataset.section === id;
+                        if (isTarget) {
+                            link.classList.add('text-primary', 'border-primary');
+                            link.classList.remove('text-on-surface-variant', 'border-transparent');
+                        } else {
+                            link.classList.remove('text-primary', 'border-primary');
+                            link.classList.add('text-on-surface-variant', 'border-transparent');
+                        }
+                    });
+                }
+            });
+        }, observerOptions);
+
+        sections.forEach(id => {
+            const section = document.getElementById(id);
+            if (section) observer.observe(section);
+        });
+    };
+
+    document.addEventListener("DOMContentLoaded", () => {
+        themeSetup();
+        scrollSpy();
+    });
+    document.addEventListener("astro:page-load", () => {
+        themeSetup();
+        scrollSpy();
+    });
+</script>

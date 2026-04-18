@@ -1,0 +1,107 @@
+---
+import Section from "./Section.astro";
+import Icon from "./Icon.astro";
+import * as heroData from "../data/hero.md";
+import esTranslations from "../i18n/es.json";
+import enTranslations from "../i18n/en.json";
+
+interface Props {
+  lang?: string;
+}
+
+const { image, ctaUrl, socials } = heroData.frontmatter as {
+  image: string;
+  ctaUrl: string;
+  socials: { url: string; icon: string }[];
+};
+const { lang = "es" } = Astro.props as Props;
+type Translations = typeof esTranslations;
+const t = (lang === "en" ? enTranslations : esTranslations) as Translations;
+---
+
+<Section class="relative min-h-[95vh] flex items-center pt-32 pb-20 px-6 hero-mesh overflow-hidden">
+  <div class="absolute inset-0 grid-pattern pointer-events-none"></div>
+  <div class="absolute top-1/4 -left-20 w-96 h-96 bg-primary/10 rounded-full blur-[120px] pointer-events-none"></div>
+  <div class="absolute bottom-1/4 -right-20 w-96 h-96 bg-tertiary/10 rounded-full blur-[120px] pointer-events-none"></div>
+  
+  <div class="max-w-7xl mx-auto w-full grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-20 items-center z-10">
+    <div class="reveal order-2 lg:order-1 active">
+      <div class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-on-surface/5 border border-on-surface/10 backdrop-blur-sm mb-6 group cursor-default">
+        <span class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
+        <span class="text-[10px] md:text-xs font-label tracking-[0.2em] uppercase text-on-surface-variant font-bold">{t.hero.availability}</span>
+      </div>
+      
+      <h1 class="font-headline text-5xl md:text-7xl font-extrabold tracking-[-0.04em] text-on-surface mb-6 leading-tight">
+        {t.hero.greeting} <span class="bg-linear-to-r from-primary via-[#6366f1] to-tertiary bg-clip-text text-transparent">{t.hero.name}</span>
+      </h1>
+      
+      <p class="font-body text-lg md:text-xl text-on-surface-variant max-w-xl mb-10 leading-relaxed font-light" set:html={t.hero.description}></p>
+      
+      <div class="flex flex-col sm:flex-row items-center gap-6 mb-12">
+        <a class="cta-blur group relative px-10 py-5 bg-on-surface text-surface font-bold rounded-full transition-all hover:scale-[1.02] active:scale-95 flex items-center justify-center gap-2 w-full sm:w-auto" href={`/${lang}${ctaUrl}`}>
+          {t.hero.cta}
+          <Icon name="mail" class="w-5 h-5 group-hover:translate-x-1 transition-transform" />
+        </a>
+        <div class="flex items-center gap-5">
+          {socials.map((social: { url: string; icon: string }) => (
+            <a class="w-12 h-12 flex items-center justify-center rounded-full bg-on-surface/5 border border-on-surface/10 hover:bg-on-surface/10 hover:border-primary/40 transition-all text-on-surface-variant hover:text-primary" href={social.url}>
+              <Icon name={social.icon} class="w-5 h-5" />
+            </a>
+          ))}
+        </div>
+      </div>
+      
+      <div class="grid grid-cols-2 gap-8 py-8 border-t border-on-surface/10">
+        {t.hero.stats.map((stat: { value: string; label: string }) => (
+          <div>
+            <span class="text-3xl font-headline font-bold text-on-surface block">{stat.value}</span>
+            <span class="text-[10px] font-label uppercase tracking-widest text-on-surface-variant font-semibold">{stat.label}</span>
+          </div>
+        ))}
+      </div>
+    </div>
+    
+    <div class="reveal order-1 lg:order-2 flex justify-center lg:justify-end active" style="transition-delay: 200ms;">
+      <div class="relative w-full max-w-md aspect-4/5 group">
+        <div class="absolute inset-0 bg-primary/20 rounded-3xl blur-2xl group-hover:bg-primary/30 transition-all duration-500"></div>
+        <div class="relative h-full w-full bg-surface-container rounded-3xl overflow-hidden border border-on-surface/10 shadow-2xl">
+          <img alt={t.hero.name} class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" src={image} />
+          <div class="absolute inset-0 bg-linear-to-t from-surface via-transparent opacity-40"></div>
+        </div>
+        
+        <div class="absolute -bottom-6 -left-6 bg-surface-container-highest border border-on-surface/10 p-4 rounded-2xl shadow-xl backdrop-blur-md hidden md:block">
+          <div class="flex items-center gap-3">
+            <div class="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center text-primary">
+              <Icon name="rocket_launch" class="w-6 h-6" />
+            </div>
+            <div>
+              <p class="text-xs font-bold text-on-surface">{t.hero.techBadge.title}</p>
+              <p class="text-[10px] text-on-surface-variant">{t.hero.techBadge.subtitle}</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</Section>
+
+<style>
+  .grid-pattern {
+    background-image: linear-gradient(rgba(128, 128, 128, 0.1) 1px, transparent 1px), linear-gradient(90deg, rgba(128, 128, 128, 0.1) 1px, transparent 1px);
+    background-size: 40px 40px;
+    mask-image: radial-gradient(ellipse at center, black, transparent 80%);
+    -webkit-mask-image: radial-gradient(ellipse at center, black, transparent 80%);
+  }
+  .hero-mesh {
+    background-image: 
+      radial-gradient(at 0% 0%, rgba(128, 131, 255, 0.15) 0px, transparent 50%),
+      radial-gradient(at 100% 0%, rgba(255, 183, 131, 0.1) 0px, transparent 50%),
+      radial-gradient(at 50% 100%, rgba(128, 131, 255, 0.05) 0px, transparent 50%);
+  }
+  .cta-blur {
+    transition: all 0.3s ease;
+  }
+  .cta-blur:hover {
+    box-shadow: 0 0 30px 5px rgba(192, 193, 255, 0.3);
+  }
+</style>

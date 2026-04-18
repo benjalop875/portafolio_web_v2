@@ -1,0 +1,170 @@
+{
+  "header": {
+    "resumeText": "Resume",
+    "theme": {
+      "light": "Light",
+      "dark": "Dark",
+      "system": "System"
+    },
+    "links": {
+      "projects": "Projects",
+      "education": "Education",
+      "experience": "Experience",
+      "contact": "Contact"
+    }
+  },
+
+  "hero": {
+    "availability": "Available for new challenges",
+    "greeting": "Hi! I am",
+    "name": "Benjamín López",
+    "description": "Junior Systems Engineer from Cochabamba 🇧🇴. Passionate about creating modern web solutions combining frontend and backend with <b>Angular, .NET Core, and SQL</b>.",
+    "cta": "Let's Talk",
+    "stats": [
+      {
+        "value": "Junior",
+        "label": "Systems Engineer"
+      },
+      {
+        "value": "10+",
+        "label": "Certified Courses"
+      }
+    ],
+    "techBadge": {
+      "title": "Full Stack Developer",
+      "subtitle": "Angular & .NET Core"
+    }
+  },
+
+  "projects": {
+    "title": "Projects & Tech Stack",
+    "description": "Explore my creations and the technologies I use to bring them to life.",
+    "searchPlaceholder": "Search technologies (e.g. Angular, SQL...)",
+    "noResults": "No projects found matching your search.",
+    "categories": {
+      "frontend": "Frontend Ecosystem",
+      "backend": "Backend & SQL"
+    },
+    "buttons": {
+      "demo": "Live Demo",
+      "repo": "Repository"
+    },
+    "items": {
+      "genium_landing": {
+        "title": "Landing Page - Genium Capacitaciones",
+        "description": "Complete design and development of the institutional landing page. Project focused on improving digital presence and optimizing user experience."
+      },
+      "activos_fundacion": {
+        "title": "Fixed Asset System - Fundación Patiño",
+        "description": "Web system for registration management, control, and auditing of fixed assets with a RESTful API under agile methodology."
+      },
+      "portfolio_dev": {
+        "title": "Personal Portfolio - benjalop.dev",
+        "description": "Digital portfolio developed with Astro and TailwindCSS focused on performance and minimalist design."
+      }
+    }
+  },
+
+  "education": {
+    "title": "Education and Certifications",
+    "description": "My academic background and professional certifications that support my technical expertise.",
+    "buttons": {
+      "showMore": "Show more certificates",
+      "showLess": "Show less"
+    },
+    "status": {
+      "completed": "Completed",
+      "certified": "Certified",
+      "process": "In Progress"
+    },
+    "items": {
+      "licenciatura_emi": "B.S. in Systems Engineering",
+      "diplomado_umss": "Higher Education Diploma",
+      "js_campus": "JavaScript Course - Ademass",
+      "git_github": "Git and GitHub Course - Ademass",
+      "ia_bigschool": "Introduction to AI Development - BIG school",
+      "node_campus": "Node.js Course - Ademass",
+      "solid_campus": "SOLID Principles - Ademass",
+      "sql_campus": "SQL Server - Ademass",
+      "angular_campus": "Angular Course - Ademass"
+    }
+  },
+
+  "experience": {
+    "title": "Experience & Impact",
+    "description": "A journey through my professional career and the tangible results I have delivered.",
+    "buttons": {
+      "showMore": "Show more experience",
+      "showLess": "Show less"
+    },
+    "metrics": {
+      "performance": "Performance",
+      "digitalPresence": "Digital Presence",
+      "logic": "Reasoning",
+      "agile": "Methodology",
+      "backend": "Backend Dev",
+      "inventory": "Inventory Mgmt",
+      "dataIntegrity": "Data Integrity",
+      "support": "Tech Support"
+    },
+    "items": {
+      "genium_work": {
+        "description": "Institutional landing page design and development, and training in digital technologies."
+      },
+      "tutor_math": {
+        "description": "Personalized tutoring focused on logical reasoning and problem solving."
+      },
+      "fundacion_patino_work": {
+        "description": "Backend development with .NET Core and frontend with Angular for the fixed asset system."
+      },
+      "qb_arquitectura": {
+        "description": "Digital form development and web systems implementation for internal inventory management."
+      },
+      "dryline_jr": {
+        "description": "Administration, backup, and organization of business data."
+      },
+      "dryline_pasante": {
+        "description": "Maintenance and configuration of IT equipment ensuring technological infrastructure."
+      },
+      "emi_pasante": {
+        "description": "SQL database development and technical support across various areas."
+      }
+    }
+  },
+
+  "contact": {
+    "title": "Let's talk about your next project",
+    "description": "I'm ready to bring my technical expertise to your team. Tell me about your idea and let's make it happen.",
+    "fields": {
+      "name": "Full Name",
+      "email": "Email Address",
+      "message": "Message"
+    },
+    "placeholders": {
+      "name": "e.g. John Doe",
+      "email": "john@example.com",
+      "message": "How can I help you?"
+    },
+    "button": {
+      "default": "Send Message",
+      "sending": "Sending..."
+    },
+    "success": {
+      "title": "Message Sent!",
+      "message": "Thank you for contacting me. I will review your proposal and respond as soon as possible."
+    },
+    "error": {
+      "title": "Error Sending",
+      "message": "There was a problem processing your request. Please try again or contact me directly."
+    }
+  },
+
+  "footer": {
+    "copyright": "© 2025 benjalop.dev. Built with Astro and Passion.",
+    "links": {
+      "privacy": "Privacy Policy",
+      "terms": "Terms of Service",
+      "cookies": "Cookies"
+    }
+  }
+}
