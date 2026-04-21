@@ -37,12 +37,25 @@ const t = (lang === "en" ? enTranslations : esTranslations) as Translations;
       
       <p class="font-body text-lg md:text-xl text-on-surface-variant max-w-xl mb-10 leading-relaxed font-light" set:html={t.hero.description}></p>
       
-      <div class="flex flex-col sm:flex-row items-center gap-6 mb-12">
-        <a class="cta-blur group relative px-10 py-5 bg-on-surface text-surface font-bold rounded-full transition-all hover:scale-[1.02] active:scale-95 flex items-center justify-center gap-2 w-full sm:w-auto" href={`/${lang}${ctaUrl}`}>
-          {t.hero.cta}
-          <Icon name="mail" class="w-5 h-5 group-hover:translate-x-1 transition-transform" />
-        </a>
-        <div class="flex items-center gap-5">
+      <div class="flex flex-col sm:flex-row items-center gap-4 mb-12">
+        <div class="flex flex-col sm:flex-row items-center gap-4 w-full sm:w-auto">
+          <a class="cta-blur group relative px-10 py-5 bg-on-surface text-surface font-bold rounded-full transition-all hover:scale-[1.02] active:scale-95 flex items-center justify-center gap-2 w-full sm:w-auto" href={`/${lang}${ctaUrl}`}>
+            {t.hero.cta}
+            <Icon name="mail" class="w-5 h-5 group-hover:translate-x-1 transition-transform" />
+          </a>
+          <button 
+            id="copy-email-btn"
+            class="relative px-8 py-5 bg-on-surface/5 border border-on-surface/10 text-on-surface font-bold rounded-full transition-all hover:bg-on-surface/10 active:scale-95 flex items-center justify-center gap-2 w-full sm:w-auto overflow-hidden group"
+            data-email="benjalop875@gmail.com"
+          >
+            <span id="copy-text">{t.hero.copyEmail}</span>
+            <Icon name="link" class="w-4 h-4 text-on-surface-variant group-hover:text-primary transition-colors" />
+            <div id="copy-toast" class="absolute inset-0 bg-emerald-500 text-white flex items-center justify-center translate-y-full transition-transform duration-300 font-bold">
+               {t.hero.copied}
+            </div>
+          </button>
+        </div>
+        <div class="flex items-center gap-4">
           {socials.map((social: { url: string; icon: string }) => (
             <a class="w-12 h-12 flex items-center justify-center rounded-full bg-on-surface/5 border border-on-surface/10 hover:bg-on-surface/10 hover:border-primary/40 transition-all text-on-surface-variant hover:text-primary" href={social.url}>
               <Icon name={social.icon} class="w-5 h-5" />
@@ -65,7 +78,7 @@ const t = (lang === "en" ? enTranslations : esTranslations) as Translations;
       <div class="relative w-full max-w-md aspect-4/5 group">
         <div class="absolute inset-0 bg-primary/20 rounded-3xl blur-2xl group-hover:bg-primary/30 transition-all duration-500"></div>
         <div class="relative h-full w-full bg-surface-container rounded-3xl overflow-hidden border border-on-surface/10 shadow-2xl">
-          <img alt={t.hero.name} class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" src={image} />
+          <img alt={t.hero.name} class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" src={image} fetchpriority="high" loading="eager" decoding="sync" />
           <div class="absolute inset-0 bg-linear-to-t from-surface via-transparent opacity-40"></div>
         </div>
         
@@ -105,3 +118,31 @@ const t = (lang === "en" ? enTranslations : esTranslations) as Translations;
     box-shadow: 0 0 30px 5px rgba(192, 193, 255, 0.3);
   }
 </style>
+
+<script>
+  function initCopyEmail() {
+    const btn = document.getElementById('copy-email-btn');
+    const toast = document.getElementById('copy-toast');
+    
+    if (!btn || !toast) return;
+
+    btn.addEventListener('click', async () => {
+      const email = btn.getAttribute('data-email') || '';
+      try {
+        await navigator.clipboard.writeText(email);
+        
+        // Show toast
+        toast.classList.remove('translate-y-full');
+        
+        setTimeout(() => {
+          toast.classList.add('translate-y-full');
+        }, 2000);
+      } catch (err) {
+        console.error('Failed to copy: ', err);
+      }
+    });
+  }
+
+  document.addEventListener('DOMContentLoaded', initCopyEmail);
+  document.addEventListener('astro:page-load', initCopyEmail);
+</script>

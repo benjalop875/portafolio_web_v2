@@ -20,6 +20,8 @@
     "name": "Benjamín López",
     "description": "Junior Systems Engineer from Cochabamba 🇧🇴. Passionate about creating modern web solutions combining frontend and backend with <b>Angular, .NET Core, and SQL</b>.",
     "cta": "Let's Talk",
+    "copyEmail": "Copy Email",
+    "copied": "Copied!",
     "stats": [
       {
         "value": "Junior",
@@ -50,6 +52,10 @@
       "repo": "Repository"
     },
     "items": {
+      "portfolio_dev_v2": {
+        "title": "Personal Portfolio - benjalop.dev",
+        "description": "Digital portfolio developed based on version 1.0 exceeding the expectations of the previous version."
+      },
       "genium_landing": {
         "title": "Landing Page - Genium Capacitaciones",
         "description": "Complete design and development of the institutional landing page. Project focused on improving digital presence and optimizing user experience."
@@ -86,7 +92,11 @@
       "node_campus": "Node.js Course - Ademass",
       "solid_campus": "SOLID Principles - Ademass",
       "sql_campus": "SQL Server - Ademass",
-      "angular_campus": "Angular Course - Ademass"
+      "angular_campus": "Angular Course - Ademass",
+      "egpp_func_publica": "Public Function Responsibility",
+      "egpp_politicas_publicas": "Public Policies",
+      "egpp_ley1178": "Law Nº 1178 (SAFCO)",
+      "egpp_prev_violencia": "Violence Prevention"
     }
   },
 

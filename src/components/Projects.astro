@@ -128,7 +128,17 @@ const getLayoutType = (index: number) => {
           matchingCount++;
           // 2. Aplicar límite de paginación sobre los resultados que coinciden
           if (matchingCount <= visibleLimit) {
-            (card as HTMLElement).classList.remove('hidden');
+            const el = card as HTMLElement;
+            el.classList.remove('hidden');
+            
+            // Recálculo dinámico del layout zig-zag
+            const patternIndex = actuallyVisible % 4;
+            let newLayout = 'card';
+            if (patternIndex === 0 || patternIndex === 3) {
+              newLayout = patternIndex === 3 ? 'horizontal' : 'featured';
+            }
+            el.dataset.layout = newLayout;
+            
             actuallyVisible++;
           } else {
             (card as HTMLElement).classList.add('hidden');
