@@ -55,17 +55,19 @@ const getLayoutType = (index: number) => {
             <span>{t.projects.categories[key as keyof typeof t.projects.categories]}</span>
             <div class="h-px flex-1 bg-outline-variant/15"></div>
           </div>
-          <div class="flex gap-4 overflow-x-auto hide-scrollbar pb-4 scroll-smooth">
-            {items.map((item: any) => (
-              <TechItem name={item.name} icon={item.icon} />
-            ))}
+          <div class="tech-carousel-wrapper overflow-hidden relative group">
+            <div class="tech-carousel-track flex w-max gap-4 px-2 pb-4">
+              {items.map((item: any) => (
+                <TechItem name={item.name} icon={item.icon} />
+              ))}
+            </div>
           </div>
         </div>
       ))}
     </div>
 
     <!-- Project Grid Automatizada -->
-    <div id="project-grid" class="grid grid-cols-1 md:grid-cols-12 gap-8">
+    <div id="project-grid" class="grid grid-cols-1 lg:grid-cols-12 gap-8">
       {projects.map((project, i) => (
         <ProjectCard 
           project={project} 
@@ -179,20 +181,26 @@ const getLayoutType = (index: number) => {
       applyFilters();
     });
 
-    // Event Listeners para los botones de tecnología
-    techButtons.forEach(btn => {
-      btn.addEventListener('click', () => {
+    // Event Listeners para los botones de tecnología (Delegación de eventos para soportar clones)
+    const projectsSection = document.getElementById('projects');
+    projectsSection?.addEventListener('click', (e) => {
+      const btn = (e.target as Element).closest('.tech-filter-btn');
+      if (btn) {
         const tech = (btn as HTMLElement).dataset.tech || '';
-        if (activeTechs.has(tech)) {
-          activeTechs.delete(tech);
-          btn.classList.remove('active');
-        } else {
+        const isActivating = !activeTechs.has(tech);
+
+        if (isActivating) {
           activeTechs.add(tech);
-          btn.classList.add('active');
+          // Sincronizar todos los botones (originales y clones)
+          document.querySelectorAll(`.tech-filter-btn[data-tech="${tech}"]`).forEach(b => b.classList.add('active'));
+        } else {
+          activeTechs.delete(tech);
+          // Sincronizar todos los botones (originales y clones)
+          document.querySelectorAll(`.tech-filter-btn[data-tech="${tech}"]`).forEach(b => b.classList.remove('active'));
         }
         visibleLimit = 4; // Reset pagination on tag change
         applyFilters();
-      });
+      }
     });
 
     // Event Listeners para Paginación
@@ -211,11 +219,64 @@ const getLayoutType = (index: number) => {
   }
 
   // Support for Astro Page Loads / Transitions
-  document.addEventListener('DOMContentLoaded', initSearch);
-  document.addEventListener('astro:page-load', initSearch);
+  document.addEventListener('DOMContentLoaded', () => {
+    initSearch();
+    initMarquees();
+    window.addEventListener('resize', initMarquees);
+  });
+  
+  document.addEventListener('astro:page-load', () => {
+    initSearch();
+    initMarquees();
+    window.addEventListener('resize', initMarquees);
+  });
+
+  // Infinite Loop Marquee Logic
+  function initMarquees() {
+    const wrappers = document.querySelectorAll('.tech-carousel-wrapper');
+    
+    wrappers.forEach(wrapper => {
+      const track = wrapper.querySelector('.tech-carousel-track') as HTMLElement;
+      if (!track) return;
+
+      // Limpiar clones y animación de posibles configuraciones previas (para resize preciso)
+      track.style.animation = 'none';
+      track.querySelectorAll('.clone-item').forEach(el => el.remove());
+
+      // Evaluar necesidad de loop midiendo anchos
+      const trackWidth = track.scrollWidth;
+      const wrapperWidth = wrapper.clientWidth;
+
+      if (trackWidth > wrapperWidth) {
+        // Necesitamos clonar elementos para el loop infinito
+        const originalItems = Array.from(track.children);
+        
+        originalItems.forEach(item => {
+          const clone = item.cloneNode(true) as HTMLElement;
+          clone.classList.add('clone-item');
+          track.appendChild(clone);
+        });
+
+        // Configuración de animación. La duración depende de la cantidad de elementos.
+        const duration = originalItems.length * 3; // 3 segundos por elemento original (velocidad controlada)
+        track.style.animation = `marquee ${duration}s linear infinite`;
+      }
+    });
+  }
 </script>
 
 <style>
-  .hide-scrollbar::-webkit-scrollbar { display: none; }
-  .hide-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+  @keyframes marquee {
+    0% {
+      transform: translateX(0);
+    }
+    100% {
+      /* Moverse hasta la mitad exacta incluyendo la distancia de la brecha (gap-4 que es 1rem = 16px) */
+      transform: translateX(calc(-50% - 0.5rem));
+    }
+  }
+
+  .tech-carousel-track:hover {
+    animation-play-state: paused !important;
+  }
 </style>

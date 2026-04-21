@@ -18,23 +18,23 @@ const itemT = t.projects.items[project.id as keyof typeof t.projects.items];
 ---
 
 <div 
-  class="project-card group/card bg-surface-container rounded-3xl overflow-hidden border border-outline-variant/10 hover:border-primary/30 transition-all duration-500 reveal flex flex-col data-[layout=horizontal]:md:flex-row data-[layout=featured]:md:col-span-8 data-[layout=card]:md:col-span-4 data-[layout=horizontal]:md:col-span-8"
+  class="project-card group/card bg-surface-container rounded-3xl overflow-hidden border border-outline-variant/10 hover:border-primary/30 transition-all duration-500 reveal flex flex-col data-[layout=horizontal]:lg:flex-row data-[layout=featured]:lg:col-span-8 data-[layout=card]:lg:col-span-4 data-[layout=horizontal]:lg:col-span-8"
   data-name={itemT.title.toLowerCase()}
   data-tags={project.tags.join(',').toLowerCase()}
   data-layout={layoutType}
 >
-  <div class="card-image relative overflow-hidden w-full transition-[height,width] duration-500 shrink-0 h-64 group-data-[layout=featured]/card:h-80 group-data-[layout=horizontal]/card:md:h-auto group-data-[layout=horizontal]/card:md:w-1/2 bg-surface-container-high">
+  <div class="card-image relative overflow-hidden w-full transition-[height,width] duration-500 shrink-0 h-64 group-data-[layout=featured]/card:lg:h-80 group-data-[layout=horizontal]/card:lg:h-auto group-data-[layout=horizontal]/card:lg:w-1/2 bg-surface-container-high">
     <img alt={itemT.title} class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" src={project.image} loading="lazy" decoding="async" />
-    <div class="absolute inset-0 bg-linear-to-t from-surface-container via-transparent opacity-60 transition-opacity duration-500 group-data-[layout=horizontal]/card:md:opacity-0"></div>
+    <div class="absolute inset-0 bg-linear-to-t from-surface-container via-transparent opacity-60 transition-opacity duration-500 group-data-[layout=horizontal]/card:lg:opacity-0"></div>
   </div>
   
-  <div class="card-body flex flex-col transition-all duration-500 grow p-6 group-data-[layout=featured]/card:p-8 group-data-[layout=horizontal]/card:p-8 group-data-[layout=horizontal]/card:md:w-1/2 group-data-[layout=horizontal]/card:justify-center">
+  <div class="card-body flex flex-col transition-all duration-500 grow p-6 group-data-[layout=featured]/card:lg:p-8 group-data-[layout=horizontal]/card:lg:p-8 group-data-[layout=horizontal]/card:lg:w-1/2 group-data-[layout=horizontal]/card:lg:justify-center">
     
-    <div class="flex flex-col mb-3 transition-colors group-data-[layout=featured]/card:flex-row group-data-[layout=featured]/card:justify-between group-data-[layout=featured]/card:items-start group-data-[layout=horizontal]/card:mb-4 group-data-[layout=featured]/card:mb-4">
-      <h3 class="font-bold font-headline text-on-surface text-xl group-data-[layout=featured]/card:text-2xl group-data-[layout=horizontal]/card:text-2xl transition-all duration-300">{itemT.title}</h3>
+    <div class="flex flex-col mb-3 transition-colors group-data-[layout=featured]/card:lg:flex-row group-data-[layout=featured]/card:lg:justify-between group-data-[layout=featured]/card:lg:items-start group-data-[layout=horizontal]/card:lg:mb-4 group-data-[layout=featured]/card:lg:mb-4">
+      <h3 class="font-bold font-headline text-on-surface text-xl group-data-[layout=featured]/card:lg:text-2xl group-data-[layout=horizontal]/card:lg:text-2xl transition-all duration-300">{itemT.title}</h3>
       
       <!-- Botones para vista 'featured' (derecha superior) -->
-      <div class="hidden group-data-[layout=featured]/card:flex gap-3">
+      <div class="hidden group-data-[layout=featured]/card:lg:flex gap-3">
         {project.demoUrl && (
           <a class="flex items-center gap-2 bg-primary text-white px-4 py-2 rounded-xl text-xs font-bold hover:scale-95 transition-transform shadow-lg shadow-primary/20" href={project.demoUrl}>
             <Icon name="link" class="w-4 h-4" /> {t.projects.buttons.demo}
@@ -48,25 +48,25 @@ const itemT = t.projects.items[project.id as keyof typeof t.projects.items];
       </div>
     </div>
     
-    <p class="text-on-surface-variant mb-6 text-sm line-clamp-2 transition-all duration-300 group-data-[layout=featured]/card:text-base group-data-[layout=featured]/card:line-clamp-none group-data-[layout=horizontal]/card:text-base group-data-[layout=horizontal]/card:line-clamp-none">
+    <p class="text-on-surface-variant mb-6 text-sm line-clamp-2 transition-all duration-300 group-data-[layout=featured]/card:lg:text-base group-data-[layout=featured]/card:lg:line-clamp-none group-data-[layout=horizontal]/card:lg:text-base group-data-[layout=horizontal]/card:lg:line-clamp-none">
       {itemT.description}
     </p>
     
-    <div class="flex flex-wrap gap-2 mb-6 transition-all duration-300 group-data-[layout=featured]/card:mb-0 group-data-[layout=horizontal]/card:mb-8">
+    <div class="flex flex-wrap gap-2 mb-6 transition-all duration-300 group-data-[layout=featured]/card:lg:mb-0 group-data-[layout=horizontal]/card:lg:mb-8">
       {project.tags.map((tag: string) => (
         <span class="px-3 py-1 bg-secondary-container text-on-secondary-container rounded-full text-[10px] uppercase font-bold tracking-wider">{tag}</span>
       ))}
     </div>
     
     <!-- Botones compartidos para vista 'card' e 'horizontal' (inferior) -->
-    <div class="flex gap-2 mt-auto text-xs font-bold group-data-[layout=featured]/card:hidden group-data-[layout=horizontal]/card:gap-4 group-data-[layout=horizontal]/card:mt-0">
+    <div class="flex gap-2 mt-auto text-xs font-bold group-data-[layout=featured]/card:lg:hidden group-data-[layout=horizontal]/card:lg:gap-4 group-data-[layout=horizontal]/card:lg:mt-0">
       {project.demoUrl && (
-        <a class="flex-1 flex items-center justify-center gap-1.5 bg-primary text-white py-2.5 rounded-xl hover:scale-[0.98] transition-all group-data-[layout=horizontal]/card:flex-none group-data-[layout=horizontal]/card:px-6 group-data-[layout=horizontal]/card:py-3 shadow-lg shadow-primary/10" href={project.demoUrl}>
+        <a class="flex-1 flex items-center justify-center gap-1.5 bg-primary text-white py-2.5 rounded-xl hover:scale-[0.98] transition-all group-data-[layout=horizontal]/card:lg:flex-none group-data-[layout=horizontal]/card:lg:px-6 group-data-[layout=horizontal]/card:lg:py-3 shadow-lg shadow-primary/10" href={project.demoUrl}>
           <Icon name="link" class="w-4 h-4" /> {t.projects.buttons.demo}
         </a>
       )}
       {project.repoUrl && (
-        <a class="flex-1 flex items-center justify-center gap-1.5 bg-surface-container-high border border-outline-variant/30 text-on-surface py-2.5 rounded-xl hover:bg-surface-bright transition-all group-data-[layout=horizontal]/card:flex-none group-data-[layout=horizontal]/card:px-6 group-data-[layout=horizontal]/card:py-3" href={project.repoUrl}>
+        <a class="flex-1 flex items-center justify-center gap-1.5 bg-surface-container-high border border-outline-variant/30 text-on-surface py-2.5 rounded-xl hover:bg-surface-bright transition-all group-data-[layout=horizontal]/card:lg:flex-none group-data-[layout=horizontal]/card:lg:px-6 group-data-[layout=horizontal]/card:lg:py-3" href={project.repoUrl}>
           <Icon name="github" class="w-4 h-4" /> {t.projects.buttons.repo}
         </a>
       )}

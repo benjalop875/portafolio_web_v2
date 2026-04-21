@@ -50,11 +50,11 @@ const { items } = experienceData.frontmatter as {
             {t.experience.items[item.id as keyof typeof t.experience.items]?.description}
           </p>
           
-          <div class="grid grid-cols-2 gap-4">
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4">
             {item.metrics.map((metric) => (
-              <div class="p-3 bg-surface-container rounded-xl border border-outline-variant/10">
-                <div class="text-tertiary font-bold text-lg">{metric.value}</div>
-                <div class="text-[10px] uppercase tracking-tighter text-on-surface-variant font-bold">
+              <div class="p-3 sm:p-4 bg-surface-container rounded-xl border border-outline-variant/10">
+                <div class="text-tertiary font-bold text-lg sm:text-xl">{metric.value}</div>
+                <div class="text-[10px] sm:text-xs uppercase tracking-tight text-on-surface-variant font-bold wrap-break-words leading-tight mt-1">
                   {t.experience.metrics[metric.labelKey as keyof typeof t.experience.metrics]}
                 </div>
               </div>
