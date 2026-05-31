@@ -36,12 +36,12 @@ const itemT = t.projects.items[project.id as keyof typeof t.projects.items];
       <!-- Botones para vista 'featured' (derecha superior) -->
       <div class="hidden group-data-[layout=featured]/card:lg:flex gap-3">
         {project.demoUrl && (
-          <a class="flex items-center gap-2 bg-primary text-white px-4 py-2 rounded-xl text-xs font-bold hover:scale-95 transition-transform shadow-lg shadow-primary/20" href={project.demoUrl}>
+          <a class="flex items-center gap-2 bg-primary text-white px-4 py-2 rounded-xl text-xs font-bold hover:scale-95 transition-transform shadow-lg shadow-primary/20" target="_blank" href={project.demoUrl} >
             <Icon name="link" class="w-4 h-4" /> {t.projects.buttons.demo}
           </a>
         )}
         {project.repoUrl && (
-          <a class="flex items-center gap-2 bg-surface-container-high border border-outline-variant/30 text-on-surface px-4 py-2 rounded-xl text-xs font-bold hover:bg-surface-bright transition-colors" href={project.repoUrl}>
+          <a class="flex items-center gap-2 bg-surface-container-high border border-outline-variant/30 text-on-surface px-4 py-2 rounded-xl text-xs font-bold hover:bg-surface-bright transition-colors" target="_blank" href={project.repoUrl} >
             <Icon name="github" class="w-4 h-4" /> {t.projects.buttons.repo}
           </a>
         )}
@@ -61,12 +61,12 @@ const itemT = t.projects.items[project.id as keyof typeof t.projects.items];
     <!-- Botones compartidos para vista 'card' e 'horizontal' (inferior) -->
     <div class="flex gap-2 mt-auto text-xs font-bold group-data-[layout=featured]/card:lg:hidden group-data-[layout=horizontal]/card:lg:gap-4 group-data-[layout=horizontal]/card:lg:mt-0">
       {project.demoUrl && (
-        <a class="flex-1 flex items-center justify-center gap-1.5 bg-primary text-white py-2.5 rounded-xl hover:scale-[0.98] transition-all group-data-[layout=horizontal]/card:lg:flex-none group-data-[layout=horizontal]/card:lg:px-6 group-data-[layout=horizontal]/card:lg:py-3 shadow-lg shadow-primary/10" href={project.demoUrl}>
+        <a class="flex-1 flex items-center justify-center gap-1.5 bg-primary text-white py-2.5 rounded-xl hover:scale-[0.98] transition-all group-data-[layout=horizontal]/card:lg:flex-none group-data-[layout=horizontal]/card:lg:px-6 group-data-[layout=horizontal]/card:lg:py-3 shadow-lg shadow-primary/10" target="_blank" href={project.demoUrl}>
           <Icon name="link" class="w-4 h-4" /> {t.projects.buttons.demo}
         </a>
       )}
       {project.repoUrl && (
-        <a class="flex-1 flex items-center justify-center gap-1.5 bg-surface-container-high border border-outline-variant/30 text-on-surface py-2.5 rounded-xl hover:bg-surface-bright transition-all group-data-[layout=horizontal]/card:lg:flex-none group-data-[layout=horizontal]/card:lg:px-6 group-data-[layout=horizontal]/card:lg:py-3" href={project.repoUrl}>
+        <a class="flex-1 flex items-center justify-center gap-1.5 bg-surface-container-high border border-outline-variant/30 text-on-surface py-2.5 rounded-xl hover:bg-surface-bright transition-all group-data-[layout=horizontal]/card:lg:flex-none group-data-[layout=horizontal]/card:lg:px-6 group-data-[layout=horizontal]/card:lg:py-3" target="_blank" href={project.repoUrl}>
           <Icon name="github" class="w-4 h-4" /> {t.projects.buttons.repo}
         </a>
       )}

@@ -52,6 +52,10 @@
       "repo": "Repositorio"
     },
     "items": {
+      "digidexmon": {
+        "title": "Digidexmon",
+        "description": "Aplicación web de exploración Digimon que permite buscar, filtrar y visualizar información detallada de criaturas y sus evoluciones mediante una interfaz moderna, responsiva e interactiva."
+      },
       "portfolio_dev_v2": {
         "title": "Portafolio Personal - benjalop.dev",
         "description": "Portafolio digital desarrollado en base de la version 1.0 superando las expectativas de la version anterior."

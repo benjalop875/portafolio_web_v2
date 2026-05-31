@@ -25,6 +25,12 @@ techStack:
 
 projects:
 
+  - id: "digidexmon"
+    image: "https://res.cloudinary.com/dco53027s/image/upload/v1780197077/imagen_2026-05-30_231116754_gjmftw.png"
+    tags: ["Angular", "Tailwind"]
+    demoUrl: "https://digidexmon.netlify.app"
+    repoUrl: "https://github.com/benjalop875/DigiDex"
+    
   - id: "portfolio_dev_v2"
     image: "https://res.cloudinary.com/dco53027s/image/upload/f_auto,q_auto,w_800/v1776552470/imagen_2026-04-18_184748839_rvtprx.png"
     tags: ["Astro", "Tailwind", "JavaScript"]

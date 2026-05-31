@@ -52,6 +52,10 @@
       "repo": "Repository"
     },
     "items": {
+      "digidexmon": {
+        "title": "Digidexmon",
+        "description": "A Digimon exploration web application that allows users to search, filter, and view detailed creature and evolution data through a modern, responsive, and interactive interface."
+      },
       "portfolio_dev_v2": {
         "title": "Personal Portfolio - benjalop.dev",
         "description": "Digital portfolio developed based on version 1.0 exceeding the expectations of the previous version."
