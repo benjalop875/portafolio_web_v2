@@ -1,7 +1,6 @@
 ---
 import * as headerData from '../data/header.md';
-import esTranslations from '../i18n/es.json';
-import enTranslations from '../i18n/en.json';
+import { useTranslations } from '../i18n/utils';
 
 const { brand, links } = headerData.frontmatter as {
     brand: string;
@@ -9,7 +8,7 @@ const { brand, links } = headerData.frontmatter as {
 };
 
 const { lang = 'es' } = Astro.props;
-const t = lang === 'en' ? enTranslations : esTranslations;
+const t = useTranslations(lang);
 
 import cvEs from '../Cv/Benjamin_Alejandro_Lopez_Quispe_CV_Es.pdf?url';
 import cvEn from '../Cv/Benjamin_Alejandro_Lopez_Quispe_CV_En.pdf?url';
@@ -61,8 +60,16 @@ const cvUrl = lang === 'en' ? cvEn : cvEs;
                 <span class="material-symbols-outlined text-[16px]">expand_more</span>
             </button>
             <div id="lang-menu" class="mobile-dropdown-menu absolute right-0 mt-2 w-24 bg-surface-container border border-on-surface/10 rounded-xl overflow-hidden opacity-0 invisible md:group-hover:opacity-100 md:group-hover:visible transition-all duration-200 shadow-2xl z-50">
-                <a class={`block px-4 py-2 text-xs font-bold hover:bg-on-surface/5 transition-colors ${lang === 'es' ? 'text-primary' : 'text-on-surface'}`} href="/es/">ES</a>
-                <a class={`block px-4 py-2 text-xs font-bold hover:bg-on-surface/5 transition-colors ${lang === 'en' ? 'text-primary' : 'text-on-surface'}`} href="/en/">EN</a>
+                {
+                    lang === 'es'
+                    ? <span class="block px-4 py-2 text-xs font-bold text-primary cursor-default">ES</span>
+                    : <a class="block px-4 py-2 text-xs font-bold text-on-surface hover:bg-on-surface/5 transition-colors" href="/es/" data-lang="es">ES</a>
+                }
+                {
+                    lang === 'en'
+                    ? <span class="block px-4 py-2 text-xs font-bold text-primary cursor-default">EN</span>
+                    : <a class="block px-4 py-2 text-xs font-bold text-on-surface hover:bg-on-surface/5 transition-colors" href="/en/" data-lang="en">EN</a>
+                }
             </div>
         </div>
 
@@ -79,7 +86,7 @@ const cvUrl = lang === 'en' ? cvEn : cvEs;
 </div>
 
 <!-- Mobile Menu Overlay -->
-<div id="mobile-menu" class="fixed inset-0 top-[73px] bg-surface-container-high w-full h-[calc(100vh-73px)] z-[100] md:hidden flex-col p-6 gap-8 translate-x-full transition-transform duration-300 ease-in-out hidden border-t border-on-surface/10">
+<div id="mobile-menu" class="fixed inset-0 top-18.5 bg-surface-container-high w-full h-[calc(100vh-73px)] z-100 md:hidden flex-col p-6 gap-8 translate-x-full transition-transform duration-300 ease-in-out hidden border-t border-on-surface/10">
     <div class="flex flex-col gap-2">
         {links.map((link) => (
             <a 
@@ -187,6 +194,16 @@ const cvUrl = lang === 'en' ? cvEn : cvEs;
         document.addEventListener('click', () => {
             document.querySelectorAll('.mobile-dropdown-menu').forEach(m => {
                 m.classList.remove('!opacity-100', '!visible');
+            });
+        });
+
+        // Save language preference on click
+        document.querySelectorAll('[data-lang]').forEach(function(el) {
+            el.addEventListener('click', function() {
+                const lang = el.getAttribute('data-lang');
+                if (lang) {
+                    localStorage.setItem('lang', lang);
+                }
             });
         });
 

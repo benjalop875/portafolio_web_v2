@@ -4,15 +4,14 @@ import TechItem from "./TechItem.astro";
 import ProjectCard from "./ProjectCard.astro";
 import Icon from "./Icon.astro";
 import * as projectsData from "../data/projects.md";
-import esTranslations from "../i18n/es.json";
-import enTranslations from "../i18n/en.json";
+import { useTranslations } from "../i18n/utils";
 
 interface Props {
   lang?: string;
 }
 
 const { lang = "es" } = Astro.props as Props;
-const t = (lang === "en" ? enTranslations : esTranslations) as typeof esTranslations;
+const t = useTranslations(lang);
 
 const { techStack, projects } = projectsData.frontmatter as {
   techStack: { frontend: any[]; backend: any[] };

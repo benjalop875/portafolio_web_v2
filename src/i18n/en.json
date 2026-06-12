@@ -161,7 +161,8 @@
     },
     "button": {
       "default": "Send Message",
-      "sending": "Sending..."
+      "sending": "Sending...",
+      "reset": "Send again"
     },
     "success": {
       "title": "Message Sent!",

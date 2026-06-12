@@ -1,8 +1,7 @@
 ---
 import * as footerData from '../data/footer.md';
 import Icon from './Icon.astro';
-import esTranslations from '../i18n/es.json';
-import enTranslations from '../i18n/en.json';
+import { useTranslations } from '../i18n/utils';
 
 const { brand, socialLinks, legalLinks } = footerData.frontmatter as {
   brand: string;
@@ -10,7 +9,7 @@ const { brand, socialLinks, legalLinks } = footerData.frontmatter as {
   legalLinks: { url: string; id: string }[];
 };
 const { lang = 'es' } = Astro.props;
-const t = lang === 'en' ? enTranslations : esTranslations;
+const t = useTranslations(lang);
 ---
 
 <footer

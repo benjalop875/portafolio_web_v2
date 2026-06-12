@@ -5,8 +5,19 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="refresh" content="2;url=/es/" />
-    <title>benjalop.dev | Bienvenido</title>
+    <meta http-equiv="refresh" content="2;url=/en/" />
+    <title>benjalop.dev | Welcome</title>
+    <script>
+        (function() {
+            var saved = localStorage.getItem('lang');
+            if (saved === 'es' || saved === 'en') {
+                window.location.replace('/' + saved + '/');
+                return;
+            }
+            var lang = navigator.language || navigator.language || '';
+            window.location.replace(lang.startsWith('es') ? '/es/' : '/en/');
+        })();
+    </script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;700&family=Manrope:wght@800&display=swap" rel="stylesheet">
@@ -119,14 +130,20 @@
         <div class="loader-container">
             <div class="loader-bar"></div>
         </div>
-        <p class="text">Preparando experiencia</p>
-        <a href="/es/">¿No fuiste redirigido? Click aquí</a>
+        <p class="text" id="splash-message">Preparando experiencia</p>
+        <a href="/en/" id="splash-fallback">¿No fuiste redirigido? Click aquí</a>
     </div>
 
     <script>
-        // Redirección rápida por JS
-        setTimeout(() => {
-            window.location.replace('/es/');
+        // Si el script del head no redirigió (raro), fallback aquí
+        setTimeout(function() {
+            var saved = localStorage.getItem('lang');
+            if (saved) {
+                window.location.replace('/' + saved + '/');
+            } else {
+                var lang = navigator.language || '';
+                window.location.replace(lang.startsWith('es') ? '/es/' : '/en/');
+            }
         }, 1500);
     </script>
 </body>
